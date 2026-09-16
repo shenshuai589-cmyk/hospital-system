@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  data:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hospital_system?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 250712
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    com.kris.hospital.mapper: debug
+
+jwt:
+  secret: hospital-system-secret-key-2026-hospital-system
+  expiration: 7200000

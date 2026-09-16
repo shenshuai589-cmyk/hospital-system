@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace必须是Mapper或dao接口的全限定包名-->
+
+<mapper namespace="com.kris.hospital.mapper.UserMapper">
+    <!--id必须是Mapper或dao接口内的方法名-->
+    <!--resultType必须是pojo类名-->
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_user( username,
+                              password,
+                              real_name,
+                              phone,
+                              role,
+                              status)
+        values (
+                   #{username},
+                   #{password},
+                   #{realName},
+                   #{phone},
+                   #{role},
+                   #{status}
+               )
+    </insert>
+    
+    <select id="findById" resultType="com.kris.hospital.pojo.User">
+        select id,
+               username,
+               password,
+               real_name AS realName,
+               phone,
+               role,
+               status,
+               create_time AS createTime,
+               update_time AS updateTime
+        from sys_user
+        where id = #{id}
+    </select>
+
+    <select id="findByUsername"
+            resultType="com.kris.hospital.pojo.User">
+
+        SELECT
+            id,
+            username,
+            password,
+            real_name AS realName,
+            phone,
+            role,
+            status,
+            create_time AS createTime,
+            update_time AS updateTime
+        FROM sys_user
+        WHERE username = #{username}
+
+    </select>
+
+    <update id="updatePassword">
+        UPDATE sys_user
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
+</mapper>
