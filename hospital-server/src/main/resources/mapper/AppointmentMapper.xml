@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace必须是Mapper或dao接口的全限定包名-->
+
+<mapper namespace="com.kris.hospital.mapper.AppointmentMapper">
+    <!--id必须是Mapper或dao接口内的方法名-->
+    <!--resultType必须是pojo类名-->
+    <!-- 新增预约 -->
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="id">
+
+        INSERT INTO sys_appointment
+        (
+            patient_id,
+            doctor_id,
+            appointment_date,
+            appointment_time,
+            status
+        )
+        VALUES
+            (
+                #{patientId},
+                #{doctorId},
+                #{appointmentDate},
+                #{appointmentTime},
+                #{status}
+            )
+
+    </insert>
+
+
+    <!-- 根据ID查询预约 -->
+    <select id="findById"
+            resultType="com.kris.hospital.pojo.Appointment">
+
+        SELECT
+            id,
+            patient_id AS patientId,
+            doctor_id AS doctorId,
+            appointment_date AS appointmentDate,
+            appointment_time AS appointmentTime,
+            status,
+            create_time AS createTime,
+            update_time AS updateTime
+        FROM sys_appointment
+        WHERE id = #{id}
+
+    </select>
+
+
+    <!-- 查询患者的预约记录 -->
+    <select id="findByPatientId"
+            resultType="com.kris.hospital.pojo.Appointment">
+
+        SELECT
+            id,
+            patient_id AS patientId,
+            doctor_id AS doctorId,
+            appointment_date AS appointmentDate,
+            appointment_time AS appointmentTime,
+            status,
+            create_time AS createTime,
+            update_time AS updateTime
+        FROM sys_appointment
+        WHERE patient_id = #{patientId}
+        ORDER BY appointment_date DESC, id DESC
+
+    </select>
+
+
+    <!-- 查询医生某一天某个时间段是否已经被预约 -->
+    <select id="findByDoctorAndTime"
+            resultType="com.kris.hospital.pojo.Appointment">
+
+        SELECT
+            id,
+            patient_id AS patientId,
+            doctor_id AS doctorId,
+            appointment_date AS appointmentDate,
+            appointment_time AS appointmentTime,
+            status,
+            create_time AS createTime,
+            update_time AS updateTime
+        FROM sys_appointment
+        WHERE doctor_id = #{doctorId}
+          AND appointment_date = #{appointmentDate}
+          AND appointment_time = #{appointmentTime}
+          AND status = 1
+
+    </select>
+
+
+    <!-- 取消预约 -->
+    <update id="cancelById">
+
+        UPDATE sys_appointment
+        SET status = 2
+        WHERE id = #{id}
+
+    </update>
+
+
+    <!-- 完成预约 -->
+    <update id="completeById">
+
+        UPDATE sys_appointment
+        SET status = 3
+        WHERE id = #{id}
+
+    </update>
+
+</mapper>
