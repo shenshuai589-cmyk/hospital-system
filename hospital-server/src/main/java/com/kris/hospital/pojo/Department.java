@@ -15,6 +15,12 @@ public class Department {
     /**
      * 科室名称
      */
+
+    private String name;
+
+    /**
+     * 科室描述
+     */
     private String description;
 
 
