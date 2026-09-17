@@ -1,5 +1,6 @@
 package com.kris.hospital.controller;
 
+import com.kris.hospital.annotation.RequireRole;
 import com.kris.hospital.dto.ChangePasswordDTO;
 import com.kris.hospital.dto.LoginDTO;
 import com.kris.hospital.dto.RegisterDTO;
@@ -42,6 +43,13 @@ public class UserController {
         Long userId = UserContext.getUserId();
         userService.changePassword(userId, changePasswordDTO);
 
+        return Result.success();
+    }
+
+    @RequireRole("ADMIN")
+    @DeleteMapping("/{id}")
+    public Result<Void> deleteUser(@PathVariable Long id){
+        userService.deleteById(id);
         return Result.success();
     }
 }

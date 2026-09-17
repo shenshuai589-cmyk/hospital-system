@@ -62,4 +62,11 @@
         SET password = #{password}
         WHERE id = #{id}
     </update>
+
+    <delete id="deleteById">
+        delete  from sys_user
+                where id = #{id}
+    </delete>
+
+
 </mapper>

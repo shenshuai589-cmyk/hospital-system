@@ -17,4 +17,7 @@ public interface UserService {
     LoginVO login(LoginDTO loginDTO);
 
     void changePassword(Long userId, ChangePasswordDTO changePasswordDTO);
+
+    //删除用户
+    void deleteById(Long id);
 }

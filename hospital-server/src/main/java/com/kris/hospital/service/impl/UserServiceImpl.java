@@ -3,10 +3,12 @@ package com.kris.hospital.service.impl;
 import com.kris.hospital.dto.ChangePasswordDTO;
 import com.kris.hospital.dto.LoginDTO;
 import com.kris.hospital.dto.RegisterDTO;
+import com.kris.hospital.exception.BusinessException;
 import com.kris.hospital.mapper.UserMapper;
 import com.kris.hospital.pojo.User;
 import com.kris.hospital.service.UserService;
 import com.kris.hospital.utils.JwtUtils;
+import com.kris.hospital.utils.UserContext;
 import com.kris.hospital.vo.LoginVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,6 +122,42 @@ public class UserServiceImpl implements UserService {
         );
 
         userMapper.updatePassword(user.getId(), newPassword);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Long currentUserId = UserContext.getUserId();
+
+        // 1. 校验是否已登录
+        if (currentUserId == null) {
+            throw new BusinessException(401, "用户未登录");
+        }
+
+        // 防范：不能删除自己
+        if (currentUserId.equals(id)) {
+            throw new BusinessException(400,"不能删除当前登录的账号");
+        }
+
+        User user = userMapper.findById(currentUserId);
+
+        if (user == null) {
+            throw new BusinessException(401, "用户不存在");
+        }
+
+        //检查当前登录的用户是否是管理员身份
+        if(!"ADMIN".equals(user.getRole())){
+            throw new BusinessException(403,"权限不足，无法执行删除操作");
+        }
+
+        // 判断要删除的id是否存在
+        User toDeleteUser = userMapper.findById(id);
+
+        if (toDeleteUser == null) {
+            throw new BusinessException(400,"该用户不存在");
+        }
+
+        userMapper.deleteById(id);
+
     }
 
 
