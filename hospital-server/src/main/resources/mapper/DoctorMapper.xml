@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace必须是Mapper或dao接口的全限定包名-->
+
+<mapper namespace="com.kris.hospital.mapper.DoctorMapper">
+    <!--id必须是Mapper或dao接口内的方法名-->
+    <!--resultType必须是pojo类名-->
+
+    <!-- 查询所有医生 -->
+    <select id="findAll"
+            resultType="com.kris.hospital.pojo.Doctor">
+
+        SELECT
+            id,
+            user_id AS userId,
+            department_id AS departmentId,
+            name,
+            title,
+            introduction,
+            registration_fee AS registrationFee,
+            status,
+            create_time AS createTime,
+            update_time AS updateTime
+        FROM sys_doctor
+        ORDER BY id DESC
+
+    </select>
+
+
+    <!-- 根据ID查询医生 -->
+    <select id="findById"
+            resultType="com.kris.hospital.pojo.Doctor">
+
+        SELECT
+            id,
+            user_id AS userId,
+            department_id AS departmentId,
+            name,
+            title,
+            introduction,
+            registration_fee AS registrationFee,
+            status,
+            create_time AS createTime,
+            update_time AS updateTime
+        FROM sys_doctor
+        WHERE id = #{id}
+
+    </select>
+
+
+    <!-- 新增医生 -->
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="id">
+
+        INSERT INTO sys_doctor
+        (
+            user_id,
+            department_id,
+            name,
+            title,
+            introduction,
+            registration_fee,
+            status
+        )
+        VALUES
+            (
+                #{userId},
+                #{departmentId},
+                #{name},
+                #{title},
+                #{introduction},
+                #{registrationFee},
+                #{status}
+            )
+
+    </insert>
+
+
+    <!-- 修改医生 -->
+    <update id="update">
+
+        UPDATE sys_doctor
+        SET
+            user_id = #{userId},
+            department_id = #{departmentId},
+            name = #{name},
+            title = #{title},
+            introduction = #{introduction},
+            registration_fee = #{registrationFee},
+            status = #{status}
+        WHERE id = #{id}
+
+    </update>
+
+
+    <!-- 删除医生 -->
+    <delete id="deleteById">
+
+        DELETE FROM sys_doctor
+        WHERE id = #{id}
+
+    </delete>
+</mapper>

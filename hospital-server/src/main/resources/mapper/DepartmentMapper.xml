@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace必须是Mapper或dao接口的全限定包名-->
+
+<mapper namespace="com.kris.hospital.mapper.DepartmentMapper">
+    <!--id必须是Mapper或dao接口内的方法名-->
+    <!--resultType必须是pojo类名-->
+    <!-- 查询所有科室 -->
+    <select id="findAll"
+            resultType="com.kris.hospital.pojo.Department">
+
+        SELECT
+            id,
+            name,
+            description,
+            status,
+            create_time AS createTime,
+            update_time AS updateTime
+        FROM sys_department
+        ORDER BY id DESC
+
+    </select>
+
+
+    <!-- 根据ID查询科室 -->
+    <select id="findById"
+            resultType="com.kris.hospital.pojo.Department">
+
+        SELECT
+            id,
+            name,
+            description,
+            status,
+            create_time AS createTime,
+            update_time AS updateTime
+        FROM sys_department
+        WHERE id = #{id}
+
+    </select>
+
+
+    <!-- 新增科室 -->
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="id">
+
+        INSERT INTO sys_department
+        (
+            name,
+            description,
+            status
+        )
+        VALUES
+            (
+                #{name},
+                #{description},
+                #{status}
+            )
+
+    </insert>
+
+
+    <!-- 修改科室 -->
+    <update id="update">
+
+        UPDATE sys_department
+        SET
+            name = #{name},
+            description = #{description},
+            status = #{status}
+        WHERE id = #{id}
+
+    </update>
+
+
+    <!-- 删除科室 -->
+    <delete id="deleteById">
+
+        DELETE FROM sys_department
+        WHERE id = #{id}
+
+    </delete>
+</mapper>
