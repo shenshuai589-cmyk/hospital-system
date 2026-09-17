@@ -25,6 +25,16 @@ public class Doctor {
     private String name;
 
     /**
+     * 性别：0女 1男
+     */
+    private Integer gender;
+
+    /**
+     * 年龄
+     */
+    private Integer age;
+
+    /**
      * 职称
      */
     private String title;
