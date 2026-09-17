@@ -6,6 +6,7 @@ import com.kris.hospital.dto.RegisterDTO;
 import com.kris.hospital.mapper.UserMapper;
 import com.kris.hospital.pojo.User;
 import com.kris.hospital.service.UserService;
+import com.kris.hospital.utils.UserContext;
 import com.kris.hospital.vo.LoginVO;
 import com.kris.hospital.vo.Result;
 import jakarta.validation.Valid;
@@ -38,7 +39,8 @@ public class UserController {
     @PutMapping("/password")
     public Result<Void> changePassword(@RequestParam String username,
                                        @Valid @RequestBody ChangePasswordDTO changePasswordDTO){
-        userService.changePassword(username, changePasswordDTO);
+        Long userId = UserContext.getUserId();
+        userService.changePassword(userId, changePasswordDTO);
 
         return Result.success();
     }

@@ -16,5 +16,5 @@ public interface UserService {
 
     LoginVO login(LoginDTO loginDTO);
 
-    void changePassword(String username, ChangePasswordDTO changePasswordDTO);
+    void changePassword(Long userId, ChangePasswordDTO changePasswordDTO);
 }

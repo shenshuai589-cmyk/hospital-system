@@ -95,8 +95,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changePassword(String username, ChangePasswordDTO changePasswordDTO) {
-        User user = userMapper.findByUsername(username);
+    public void changePassword(Long userId, ChangePasswordDTO changePasswordDTO) {
+        User user = userMapper.findById(userId);
+
         if(user == null){
             throw new RuntimeException("该账户不存在");
         }

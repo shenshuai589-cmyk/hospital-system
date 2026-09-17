@@ -22,6 +22,11 @@ public class GlobalExceptionHandler {
         return Result.error(400, message);
     }
 
+    @ExceptionHandler(BusinessException.class)
+    public Result<Void> handleBusinessException(BusinessException e) {
+        return Result.error(e.getCode(), e.getMessage());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public Result<Void> handleRuntimeException(RuntimeException e) {
         return  Result.error(400, e.getMessage());
